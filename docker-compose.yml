@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: koni-bank-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_PATH=/app/database/koni.db
+    volumes:
+      - ./database:/app/database
+      - ./backups:/app/backups
+    restart: unless-stopped
+    networks:
+      - koni-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: koni-bank-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+      - ./frontend/public:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - koni-network
+
+networks:
+  koni-network:
+    driver: bridge
+
+volumes:
+  database-data:
+  backup-data:

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Koni Bank - Secure Digital Banking">
+    <meta name="theme-color" content="#4f46e5">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico">
+    <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    
+    <title>Koni Bank - Login</title>
+    
+    <!-- PWA Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Background Animation -->
+        <div class="background-animation">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <!-- Left Panel (Branding) -->
+            <div class="left-panel">
+                <div class="brand-container">
+                    <div class="logo-container">
+                        <img src="logo.png" alt="Koni Bank Logo" class="logo">
+                        <h1 class="brand-name">Koni Bank</h1>
+                    </div>
+                    <p class="tagline">Secure. Simple. Smart Banking.</p>
+                    
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <span class="feature-icon">🔒</span>
+                            <span class="feature-text">Bank-Grade Security</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">⚡</span>
+                            <span class="feature-text">Instant Transfers</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📱</span>
+                            <span class="feature-text">Mobile First</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">💰</span>
+                            <span class="feature-text">Smart Loans</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel (Login Form) -->
+            <div class="right-panel">
+                <div class="form-container">
+                    <!-- Toggle between Login/Register -->
+                    <div class="form-toggle">
+                        <button class="toggle-btn active" data-form="login">Login</button>
+                        <button class="toggle-btn" data-form="register">Register</button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="loginForm" class="auth-form active">
+                        <h2 class="form-title">Welcome Back</h2>
+                        <p class="form-subtitle">Sign in to your account</p>
+                        
+                        <div class="form-group">
+                            <label for="loginEmail">Email Address</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">✉️</span>
+                                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                            </div>
+                            <div class="error-message" id="loginEmailError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">🔒</span>
+                                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                                <button type="button" class="password-toggle" data-target="loginPassword">👁️</button>
+                            </div>
+                            <div class="error-message" id="loginPasswordError"></div>
+                        </div>
+
+                        <div class="form-group" id="totpGroup" style="display: none;">
+                            <label for="loginTOTP">TOTP Code</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">🔑</span>
+                                <input type="text" id="loginTOTP" placeholder="Enter 6-digit code" maxlength="6">
+                            </div>
+                            <div class="error-message" id="loginTOTPError"></div>
+                        </div>
+
+                        <div class="form-options">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="rememberMe">
+                                <span class="checkmark"></span>
+                                Remember me
+                            </label>
+                            <a href="#" id="forgotPassword" class="forgot-link">Forgot Password?</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <span class="btn-text">Sign In</span>
+                            <span class="btn-loader" style="display: none;">⏳</span>
+                        </button>
+
+                        <div class="divider">
+                            <span>or continue with</span>
+                        </div>
+
+                        <div class="social-login">
+                            <button type="button" class="social-btn google-btn">
+                                <span class="social-icon">G</span>
+                                Google
+                            </button>
+                            <button type="button" class="social-btn github-btn">
+                                <span class="social-icon">🐙</span>
+                                GitHub
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form id="registerForm" class="auth-form">
+                        <h2 class="form-title">Create Account</h2>
+                        <p class="form-subtitle">Join Koni Bank today</p>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" placeholder="John" required>
+                                <div class="error-message" id="firstNameError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" placeholder="Doe" required>
+                                <div class="error-message" id="lastNameError"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="registerEmail">Email Address</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">✉️</span>
+                                <input type="email" id="registerEmail" placeholder="john@example.com" required>
+                            </div>
+                            <div class="error-message" id="registerEmailError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="registerPassword">Password</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">🔒</span>
+                                <input type="password" id="registerPassword" placeholder="Create a strong password" required>
+                                <button type="button" class="password-toggle" data-target="registerPassword">👁️</button>
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-meter">
+                                    <div class="strength-bar"></div>
+                                </div>
+                                <span class="strength-text">Password strength: <span id="strengthValue">Weak</span></span>
+                            </div>
+                            <div class="error-message" id="registerPasswordError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">🔒</span>
+                                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                                <button type="button" class="password-toggle" data-target="confirmPassword">👁️</button>
+                            </div>
+                            <div class="error-message" id="confirmPasswordError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <div class="input-with-icon">
+                                <span class="input-icon">📱</span>
+                                <input type="tel" id="phone" placeholder="+91 9876543210">
+                            </div>
+                            <div class="error-message" id="phoneError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="termsAgree" required>
+                                <span class="checkmark"></span>
+                                I agree to the <a href="/terms" class="link">Terms of Service</a> and <a href="/privacy" class="link">Privacy Policy</a>
+                            </label>
+                            <div class="error-message" id="termsError"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <span class="btn-text">Create Account</span>
+                            <span class="btn-loader" style="display: none;">⏳</span>
+                        </button>
+
+                        <p class="form-footer">
+                            Already have an account? <a href="#" class="switch-form" data-form="login">Sign In</a>
+                        </p>
+                    </form>
+
+                    <!-- TOTP Setup Modal -->
+                    <div id="totpModal" class="modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Two-Factor Authentication Setup</h3>
+                                <button class="modal-close">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Scan the QR code with your authenticator app (Google Authenticator, Authy, etc.)</p>
+                                <div class="qr-container">
+                                    <img id="totpQRCode" src="" alt="TOTP QR Code">
+                                </div>
+                                <div class="manual-code">
+                                    <p>Or enter this code manually:</p>
+                                    <code id="totpManualCode" class="code-block"></code>
+                                </div>
+                                <p>After setting up, enter the 6-digit code from your app:</p>
+                                <input type="text" id="totpVerifyCode" placeholder="000000" maxlength="6" class="totp-input">
+                                <div class="modal-actions">
+                                    <button id="verifyTOTP" class="btn btn-primary">Verify & Complete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
+                    <a href="/security">Security</a>
+                    <a href="/contact">Contact</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toastContainer" class="toast-container"></div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/validation.js"></script>
+    <script src="/js/animations.js"></script>
+</body>
+</html>
